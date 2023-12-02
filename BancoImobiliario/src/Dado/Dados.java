@@ -12,7 +12,7 @@ public class Dados implements IDado {
     }
     
     public int girarDados() {
-        valor = aleatorio.nextInt(1, 13);
+        valor = aleatorio.nextInt(13);
         return valor;
     }
 }

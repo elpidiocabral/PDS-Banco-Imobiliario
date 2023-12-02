@@ -43,14 +43,18 @@ public class ViewTabuleiro {
     }
 
     public void novaRodada() {
-        System.out.println("rodada: "+ controllerTab.getNumRodadas());
+        System.out.println("rodada: " + controllerTab.getNumRodadas());
+        System.out.println("PILHA 1");
 
         System.out.println(controllerTab.solicitaGirarDados());
         resp = sc.nextLine();
+
             if(resp.equals("")) {
-                controllerTab.preparaReceber(true); 
+                //controllerTab.preparaReceber(true); 
                 controllerTab.novaRodada();
+                System.out.println("PILHA 2");
             }
+
             System.out.println(controllerTab.retornoTabuleiro()); 
             resp = sc.nextLine();
             if(resp.equals("S")) {
@@ -63,14 +67,8 @@ public class ViewTabuleiro {
             else if(resp.equals("")){
                 System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogador()));
             }
-        /*System.out.println("Deseja jogar uma nova rodada? S/N");
-        resp = sc.nextLine();
-        if(resp.equals("S")) {
-            novaRodada();
-        }*/ //isso vai ter que ficar em algum lugar de solicitação do tabuleiro
         
     }
-
 
     public void Jogar() {
         boolean controle = true;

@@ -39,7 +39,7 @@ public class CartaSorteOuReves implements ICarta{
     public float geraValor() {
         // criando valor aleatório para o sorte ou reves
         Random aleatorio = new Random(); // função random
-        float valor = aleatorio.nextFloat(1, 10)*10; 
+        float valor = aleatorio.nextFloat() * (1.0f - 10.0f) * 10.0f; 
         valor =  (float) Math.floor(valor)*100;
         return valor;
 

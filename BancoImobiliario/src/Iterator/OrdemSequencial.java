@@ -15,7 +15,6 @@ public class OrdemSequencial implements IIterador {
 		if(jogadores.length == 0) {
 			return false;
 		} else {
-			
 			if(jogadores.length > atual) {
 				return true;
 			} 
@@ -30,6 +29,7 @@ public class OrdemSequencial implements IIterador {
 		if(this.temProximo()) {
 			jogador = this.jogadores[atual];
 			atual++;
+			System.out.println("JOGADOR ITEROU VIU " + this.atual);
 		}
 		return jogador;
 	}

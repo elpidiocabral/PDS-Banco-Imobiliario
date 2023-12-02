@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import javax.sound.midi.Soundbank;
-
 import Casas.*;
 import Iterator.IAgregador;
 import Iterator.IIterador;
@@ -29,6 +27,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         jogadores = new ArrayList<IJogador>();
         rodadas = 1;
         comunica = "";
+        sinaliza = true;
     }
 
     public void adicionaJogadores(String nome) {
@@ -121,27 +120,30 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         switch (tipo) {
             case "ganha":
                 return new OrdemGanhadores(this.jogadores.toArray(jog));
-        
+
             default:
                 return new OrdemSequencial(this.jogadores.toArray(jog));
         }
     }
 
-    public void rodadas() {
+    // METODO NUNCA UTILIZADO
+    public void rodadas() {     
         iterador = criaIterator("rodadas");
-        rodadas++;
-        while(iterador.temProximo()) {
-            
-        }
+        rodadas += 1;
     }
 
     public void novaRodada() {
         String mensagem = ""; 
+
         this.iterador = criaIterator("rodada"); 
         joga = iterador.leProximo();
-        //System.out.println("1: " + joga.getNome());
-        while(iterador.temProximo()) {
-            //System.out.println("2: " + joga.getNome());
+        
+        System.out.println("TAMAIN J: " + jogadores.size());
+        System.out.println("RODADAS: " + getNumRodadas());
+        
+        // while(iterador.temProximo()) {
+            System.out.println("2: " + joga.getNome());
+            
             mensagem += joga.getNome();
             int valor = 0;
             if(joga.getStatus().equals("livre")) {
@@ -160,19 +162,17 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
                     joga.setStatus("livre");
                 }
                 setComunica(mensagem);
-                //System.out.println("3: " + joga.getNome());
             }
-            //System.out.println("4: " + joga.getNome());
             joga = iterador.leProximo();
-            //System.out.println("5: " +joga.getNome());
-        }
-    }
+        //}
 
+        rodadas++;
+    }
 
     public void andarCasas(IJogador jogador, int valor) {
         int index = (casas.size() % valor + 1);
-        System.out.println(jogador.getNome());
         String base = jogador.getNome() + " andará " + valor + " casas...\n\n" + casas.get(index).leCasa(jogador);
+        
         casa = casas.get(index);
         
         //cartas locais e de empresa tem grupo maior que 0, só casas de efeito tem grupo 0
@@ -204,7 +204,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public String solicitaGirarDados() {
-        return "gire os dados apertando a ENTER";
+        return "gire os dados apertando ENTER";
     }
 
     public int girarDados(IJogador jogador) {

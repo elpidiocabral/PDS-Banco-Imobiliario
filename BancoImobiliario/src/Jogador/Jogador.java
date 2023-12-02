@@ -13,7 +13,6 @@ public class Jogador implements IJogador {
     ControllerDados dados;
 
     
-
     public Jogador(String nome) {
         this.nome = nome;
         this.carteira = 2558000;
@@ -23,7 +22,6 @@ public class Jogador implements IJogador {
         int numRodadas = 0;
         dados = new ControllerDados();
     }
-    
 
     public void setCarteira(float valor) {
         carteira += valor;
@@ -52,7 +50,6 @@ public class Jogador implements IJogador {
         status = newStatus;
     }
 
-
     public int getLocaliza() {
         return localiza;
     }
@@ -76,7 +73,4 @@ public class Jogador implements IJogador {
     public void setNumRodadas() {
         numRodadas++;
     }
-
-
-    
 }
