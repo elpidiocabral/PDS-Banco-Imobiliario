@@ -4,6 +4,10 @@ import Jogador.IJogador;
 
 public interface ICasa {
     public String getNome();
-    public void leCasa(IJogador jogador);
-
+    public String leCasa(IJogador jogador);
+    public int getGrupo();
+    public IJogador getProprietario();
+    public void setProprietario(IJogador jogador);
+    public float getValor();
+    public float calcularPedagio();
 }

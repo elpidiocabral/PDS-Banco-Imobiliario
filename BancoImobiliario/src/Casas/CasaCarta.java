@@ -1,5 +1,5 @@
 package Casas;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 import Carta.*;
 import Jogador.IJogador;
@@ -19,35 +19,42 @@ public class CasaCarta implements ICasa {
     public String getNome() {
         return this.nome;
     }
-    public void leCasa(IJogador jogador) { 
-        System.out.println(nome);
-        System.out.println("--------------------");
-        
+    public String leCasa(IJogador jogador) { 
+        String le = "";
+        le += nome;
+        le += "\n--------------------\n";
         if(carta.getProprietario() != null) {
-            if(carta.getProprietario().equals(jogador)) return;
-            System.out.println(jogador.getNome() + " paga " + carta.calcularPedagio() + " para " + carta.getProprietario().getNome());
+            if(carta.getProprietario().equals(jogador)) {
+                le += " você já é dono deste local, até a próxima\n";
+                return le;
+            }
+            le += jogador.getNome() + " paga " + carta.calcularPedagio() + " para " + carta.getProprietario().getNome() + "\n";
             if(jogador.getCarteira() < carta.calcularPedagio()) {
                 carta.getProprietario().setCarteira(jogador.getCarteira());
-                System.out.println(jogador.getNome() + " faliu!! não poderá jogar enquanto não tiver dinheiro");
+                le += jogador.getNome() + " faliu!! não poderá jogar enquanto não tiver dinheiro\n";
                 jogador.setStatus("falido");
+                return le;
             }
             jogador.setCarteira(-carta.calcularPedagio());
             carta.getProprietario().setCarteira(carta.calcularPedagio());
+            return le;
         }
         else {
-            System.out.println("valor: " + carta.getValor());
-            System.out.println("pedagio: " + carta.calcularPedagio() + "\n");
-            System.out.println("Dejesa comprá-la?");
-            Scanner sc = new Scanner(System.in);
-            String resp = sc.nextLine();
-            if(resp.equals("S") || resp.equals("s")) {
-                jogador.setCarteira(-carta.getValor());
-                carta.setProprietario(jogador);
-                return;
-            }
-            else {
-                return;
-            }
+            le += "valor: " + carta.getValor() + "\n" + "pedagio: " + carta.calcularPedagio() + "\n";
+            return le;
+            //System.out.println("Dejesa comprá-la?");
+
+            // solicitar resposta e receber da view
+            //Scanner sc = new Scanner(System.in);
+            //String resp = sc.nextLine();
+            //if(resp.equals("S") || resp.equals("s")) {
+                //jogador.setCarteira(-carta.getValor());
+                //carta.setProprietario(jogador);
+                //return;
+            //}
+            //else {
+                //return;
+            //}
 
         }
 
@@ -77,14 +84,27 @@ public class CasaCarta implements ICasa {
         }
     }
 
-    public void ComprarCarta(IJogador jogador) {
-        jogador.setCarteira(-carta.getValor());
-        carta.setProprietario(jogador);
-
-    }
-
     public ICarta getCarta() {
         return carta;
+    }
+    public int getGrupo() {
+        return grupo;
+    }
+
+    public IJogador getProprietario() {
+        return carta.getProprietario();
+    }
+
+    public void setProprietario(IJogador jogador) {
+        carta.setProprietario(jogador);
+    }
+
+    public float getValor() {
+        return carta.getValor();
+    }
+
+    public float calcularPedagio() {
+        return carta.calcularPedagio();
     }
 
 }

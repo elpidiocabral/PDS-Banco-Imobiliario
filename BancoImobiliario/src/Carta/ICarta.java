@@ -8,5 +8,6 @@ public interface ICarta {
     public float getValor();
     public IJogador getProprietario();
     public void setProprietario(IJogador jogador);
+    public String getNome();
     
 }

@@ -1,16 +1,19 @@
 package Carta;
 import java.util.Random;
 
+//import Efeito.IEfeito;
 import Jogador.IJogador;
 
 public class CartaSorteOuReves implements ICarta{
     
     String nome;
+    String mensagem;
     float valor;
     IJogador proprietario; //poderia ser só um nome mas isso dificultaria transações de valores.
 
-    public CartaSorteOuReves(String nome, float valor) {
+    public CartaSorteOuReves(String nome, String mensagem) {
         this.nome = nome;
+        this.mensagem = mensagem;
         this.valor = geraValor();
         this.proprietario = null;
     }
@@ -19,7 +22,7 @@ public class CartaSorteOuReves implements ICarta{
         return valor;
     }
     public float getValor() {
-        if(this.nome == "Sorte") {
+        if(this.nome == "SORTE") {
             return valor;
         }
         return -valor;
@@ -41,4 +44,9 @@ public class CartaSorteOuReves implements ICarta{
         return valor;
 
     }
+
+    public String getNome() {
+        return nome + "\n" + mensagem + valor;
+    }
+
 }

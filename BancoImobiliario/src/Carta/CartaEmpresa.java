@@ -30,4 +30,8 @@ public class CartaEmpresa implements ICarta{
     public void setProprietario(IJogador proprietario) {
         this.proprietario = proprietario;
     }
+
+    public String getNome() {
+        return nome;
+    }
 }
