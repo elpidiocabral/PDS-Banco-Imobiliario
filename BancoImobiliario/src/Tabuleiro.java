@@ -141,6 +141,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
             if(joga.getStatus().equals("livre")) {
                 if(getSinaliza()) { //validação de dados sendo girados;
                     valor = girarDados(joga);
+                    // retorna a string de resulta após mover o jogador
                     setComunica( andarCasas(joga, valor) );
                     
                     joga = solicitaProximo(iterador);
@@ -165,10 +166,13 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public String andarCasas(IJogador jogador, int valor) {
-        int index = (casas.size() % valor + 1); // isso aqui buga resto 0
+        int index = ( valor + jogador.getLocaliza() ) % casas.size(); // isso aqui buga resto 0
         String base = jogador.getNome() + " andará " + valor + " casas...\n\n" + casas.get(index).leCasa(jogador);
         
+        System.out.println("POSICAO: " + jogador.getLocaliza());
+
         casa = casas.get(index);
+        jogador.setLocaliza(index); /// algum bug maluco de localização
         
         //cartas locais e de empresa tem grupo maior que 0, só casas de efeito tem grupo 0
         if(casa.getGrupo() > 0 && casa.getProprietario() == null) {
@@ -215,9 +219,12 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public IJogador solicitaProximo(IIterador iterador) {
+        double rod = rodadas;
+        double jog = jogadores.size();
+
         if(iterador.temProximo() == true) {
             return iterador.leProximo();
-        } else if( rodadas % jogadores.size() == 0 ) {
+        } else if( rod % jog == 0.0 ) {
             return iterador.getPrimeiro();
         } else { // estamos no ultimo
             return iterador.getUltimo();

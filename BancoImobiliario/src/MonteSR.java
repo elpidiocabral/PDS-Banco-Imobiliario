@@ -15,8 +15,8 @@ public class MonteSR {
         ICarta sorte1 = new CartaSorteOuReves("REVÉS","quebrou as pernas e teve que arcar com custos médicos, perdeu ");
         ICarta sorte2 = new CartaSorteOuReves("SORTE","ganhou na loteriaaa, ganhou "); 
         ICarta sorte3 = new CartaSorteOuReves("REVÉS","bateu o carro e não tinha seguro, perdeu ");
-        ICarta sorte4 = new CartaSorteOuReves("SORTE", "foi promovido, perdeu ");
-        ICarta sorte5 = new CartaSorteOuReves("REVÉS", "bateu o carro, mas tinha seguro, ganhou ");
+        ICarta sorte4 = new CartaSorteOuReves("SORTE", "foi promovido, ganhou ");
+        ICarta sorte5 = new CartaSorteOuReves("REVÉS", "bateu o carro, mas tinha seguro, perdeu ");
         ICarta sorte6 = new CartaSorteOuReves("SORTE", "conseguiu CAUSA GANHA! seu divórcio saiu, ganhou ");
         ICarta sorte7 = new CartaSorteOuReves("REVÉS", "FOI PROCESSADO! devido os gastos com os advogados, perdeu ");
         ICarta sorte8 = new CartaSorteOuReves("REVÉS", "PERDEU TUDO! uma sorte chuva afetou sua casa, os custos pagos somam ");

@@ -24,8 +24,9 @@ public class CartaSorteOuReves implements ICarta{
     public float getValor() {
         if(this.nome.equals("SORTE")) {
             return valor;
+        } else {
+            return -valor;
         }
-        return -valor;
     }
 
     public IJogador getProprietario() {
