@@ -73,7 +73,7 @@ public class ViewTabuleiro {
             controllerTab.incrementaRodada();
         }
         System.out.println(" - - - FIM DE JOGO - - - \n");
-        System.out.println("\nRANKING---------------\n" + controllerTab.encerraJogo());
+        System.out.println("\nRANKING--------------\n" + controllerTab.encerraJogo());
     }
 
     public boolean captarEntrada() {
