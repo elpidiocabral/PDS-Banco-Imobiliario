@@ -16,17 +16,19 @@ public class CasaEfeito implements ICasa {
     CasaEfeito(String nome, int grupo) {
         this.nome = nome;
         this.grupo = grupo;
-        this.cairam = new ArrayList<IJogador>();
+        this.efeito = criarEfeito(nome);
+    }
 
+    public IEfeito criarEfeito(String nome) {
         switch (nome) {
-            case "Férias":
-                efeito = new EfeitoFerias();
+            case"Férias":
+                return new EfeitoFerias();
 
             case "Prisão":
-                efeito = new EfeitoCadeia();
-        
+                return new EfeitoCadeia();
+
             default:
-                efeito = new EfeitoInicio();
+                return new EfeitoInicio();
         }
     }
 

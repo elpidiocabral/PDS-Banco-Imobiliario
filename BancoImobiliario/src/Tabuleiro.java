@@ -11,7 +11,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     ArrayList<ICasa> casas; 
     IFabricaCasa fabrica;
     ArrayList<IJogador> jogadores;
-    int rodadas;
+    int turnos;
     int realRodadas; // verdadeiro numero de rodadas
     IIterador iterador;
     
@@ -26,8 +26,8 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         casas = new ArrayList<ICasa>();
         fabrica = new FabricaCasa();
         jogadores = new ArrayList<IJogador>();
-        rodadas = 1;
-        realRodadas = 0;
+        turnos = 1;
+        realRodadas = 1;
         comunica = "";
         sinaliza = true;
     }
@@ -47,7 +47,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         ICasa aldeota = fabrica.criarCasa("Local","Aldeota", 2);
         ICasa meireles = fabrica.criarCasa("Local","Meireles", 2);
         ICasa cedro = fabrica.criarCasa("Local","Açude do Cedro", 2);
-        ICasa companhiaFerro = fabrica.criarCasa("Empresa", "Companhia Ferroviária", 0);
+        ICasa companhiaFerro = fabrica.criarCasa("Empresa", "Companhia Ferroviária", 2);
         ICasa bezerra = fabrica.criarCasa("Local","Av Bezerra de Menezes", 2);
         ICasa praca = fabrica.criarCasa("Local","Praça do Ferreira", 2);
         ICasa mister = fabrica.criarCasa("Local","Av MisterHall", 2);
@@ -55,7 +55,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         ICasa quixada = fabrica.criarCasa("Local","Quixadá - terra dos monólitos", 2);
         ICasa eusebio = fabrica.criarCasa("Local","Eusebio", 2);
         ICasa agua = fabrica.criarCasa("Empresa", "Cagece - companhia de abastecimento de água", 2);
-        ICasa internet = fabrica.criarCasa("Empresa", "Brisanet Internet", 0);
+        ICasa internet = fabrica.criarCasa("Empresa", "Brisanet Internet", 2);
      
          //Rio Janeiro - grupo 3
         ICasa brasil = fabrica.criarCasa("Local","Av Brasil", 3);
@@ -130,18 +130,12 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
 
     public void novaRodada() {
         String mensagem = ""; 
-
-        System.out.println("TURNOS --> " + this.rodadas);
-        System.out.println("RODADAS -> " + this.realRodadas);
-
-        if(this.rodadas == 1) {
+        
+        if(this.turnos == 1) {
             this.iterador = criaIterator("rodada");   
             joga = iterador.leProximo();
-            System.out.println("Ó O NOME => " + joga.getNome());
         }
-        
-        //if( (this.rodadas % jogadores.size()) == 0 ) joga = iterador.leProximo();
-        
+
         for(int i = 0; i < jogadores.size(); i++) {
             mensagem += joga.getNome();
             int valor = 0;
@@ -157,21 +151,32 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
                      * por isso uso um if para perguntar "a rodada resetou?"
                      * se sim, e pego o 2º jogador
                      */
+                    joga.setNumRodadas(); // incrementa a rodada do jogador
                     joga = solicitaProximo(iterador);
-                    if( (this.rodadas % jogadores.size()) == 0 ) joga = iterador.leProximo();
+                    if( (this.turnos % jogadores.size()) == 0 ) joga = iterador.leProximo();
 
                     break;
                 }
             }
+            // JOGADOR PRESO
             else {
-                mensagem =  "não pode jogar pois está " + joga.getStatus();
-                if(joga.getStatus().equals("de férias") && rodadas - joga.getNumRodadas() == 2) {
+                joga.setStatusRodadas();
+                mensagem = joga.getNome() + " não pode jogar pois está " + joga.getStatus();
+                mensagem += "\naperte ENTER para continuar o jogo!";
+                if(joga.getStatus().equals("de férias") && (joga.getStatusRodadas() > 2)) {
                     joga.setStatus("livre");
+                    joga.resetStatusRodadas();
                 }
-                if(joga.getStatus().equals("preso") && rodadas - joga.getNumRodadas() == 3) {
+                if(joga.getStatus().equals("preso") && (joga.getStatusRodadas() > 3)) {
                     joga.setStatus("livre");
+                    joga.resetStatusRodadas();
                 }
                 setComunica(mensagem);
+
+                joga = solicitaProximo(iterador);
+                if( (this.turnos % jogadores.size()) == 0 ) joga = iterador.leProximo();
+                
+                break;
             }
                        
             joga = solicitaProximo(iterador);
@@ -179,8 +184,8 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public String andarCasas(IJogador jogador, int valor) {
-        int index = (casas.size() % valor + 1) + jogador.getLocaliza();
-
+        int index = ((valor + jogador.getLocaliza()) % casas.size());
+        
         System.out.println(jogador.getNome());
         String base = jogador.getNome() + " andará " + valor + " casas...\n\n";
 
@@ -190,23 +195,25 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         //cartas locais e de empresa tem grupo maior que 0, só casas de efeito tem grupo 0
         if(casa.getGrupo() > 0 && casa.getProprietario() == null) {
             base += casas.get(index).leCasa(jogador) + "\nDeseja comprar esta casa?";
-
             return base;
         }
         else if(casa.getGrupo() > 0 && casa.getProprietario() != null) {
             base += casas.get(index).leCasa(jogador);
 
-            if(casa.getProprietario().equals(jogador)) base += "  \nlar doce lar";
+            if(casa.getProprietario().equals(jogador)) {
+                return base;
+            }
+            else if(!casa.getProprietario().equals(jogador)) {
+                float custo = casa.calcularPedagio();
+                base += "\n" + jogador.getNome() + " paga " + custo + " para " + casa.getProprietario().getNome() + "\n";
 
-            float custo = casa.calcularPedagio();
-            base += "\n" + jogador.getNome() + " paga " + valor + " para " + casa.getProprietario().getNome() + "\n";
-            
-            setComunica(base);
+                setComunica(base);
 
-            jogador.setCarteira(-custo);
-            casa.getProprietario().setCarteira(custo);
+                jogador.setCarteira(-custo);
+                casa.getProprietario().setCarteira(custo);
 
-            return base;
+                return base;
+            }
         }
         else if(casa.getGrupo() == -1) {
             base += casas.get(index).leCasa(jogador);
@@ -214,6 +221,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
 
         }
         else if(casa.getGrupo() == 0) {
+            base += casas.get(index).leCasa(jogador);
             return base;
         }
         return "";
@@ -225,9 +233,11 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         return "---compra realizada com sucesso!---\n\n";
     }
 
+    /*
     public String solicitaGirarDados() {
         return "gire os dados apertando ENTER";
     }
+    */
 
     public int girarDados(IJogador jogador) {
         int valor = jogador.girarDados();
@@ -235,14 +245,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public IJogador solicitaProximo(IIterador iterador) {
-        //return iterador.leProximo();
-        
-        double rod = rodadas; // TURNO
-        double jog = jogadores.size();
-        
-        System.out.println("TESTE => % " + rodadas % jogadores.size());
-
-        if( (rodadas % jogadores.size()) == 0 ) {
+        if( (turnos % jogadores.size()) == 0 ) {
             this.realRodadas++;
             return iterador.getPrimeiro();
         } 
@@ -254,8 +257,21 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         }
     }
 
+    public String encerraJogo() {
+        String ranking = "";
+        iterador = criaIterator("ganha");
+        iterador.ordenar();
+        
+        for(int i = 0; i < jogadores.size(); i++) {
+            joga = iterador.leProximo();
+            ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + ( joga.getCarteira() + joga.getImoveis() ) + "\n---------------------\n";
+        }
+
+        return ranking;
+    }
+
     public int getNumRodadas() {
-        return rodadas;
+        return turnos;
     }
 
     public void setSinaliza(boolean ok) {
@@ -287,6 +303,6 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     }
 
     public void incrementaRodada() {
-        this.rodadas++;
+        this.turnos++;
     }
 }

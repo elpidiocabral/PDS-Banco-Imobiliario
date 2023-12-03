@@ -11,16 +11,18 @@ public class OrdemSequencial implements IIterador {
 		this.atual = 0;
 	}
 	
+	public void ordenar() {
+		// apenas implementando
+	}
+
 	public boolean temProximo() {
 		if(jogadores.length == 0) {
 			return false;
 		} else {
 			if(jogadores.length-1 >= atual) {
-				System.out.println("AQUI ->> " +jogadores.length);
 				return true;
 			} 
 			else {
-				//System.out.println("RAPAZ MENINO GAROTO");
 				return false;
 			}
 		}
@@ -31,7 +33,6 @@ public class OrdemSequencial implements IIterador {
 		if(this.temProximo()) {
 			jogador = this.jogadores[atual];
 			atual++;
-			//System.out.println("JOGADOR ITEROU VIU " + this.atual);
 		} else {
 			jogador = this.getPrimeiro();
 			atual = 0;

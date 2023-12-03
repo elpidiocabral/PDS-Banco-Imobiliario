@@ -11,6 +11,7 @@ public class Jogador implements IJogador {
     String status;
     int numRodadas;
     ControllerDados dados;
+    int statusRodadas;
 
     
     public Jogador(String nome) {
@@ -20,6 +21,7 @@ public class Jogador implements IJogador {
         this.localiza = 1; // a pendência servirá em casos de punições como "fique 3 rodadas sem jogar, como um contador, apesar de que eu creio que daria pra fazer de um jeito melhor pensando um pouco mais"
         this.status = "livre"; // o status vai dizer onde ele está = de férias, na prisão ou livre;
         int numRodadas = 0;
+        int statusRodadas = 0;
         dados = new ControllerDados();
     }
 
@@ -72,5 +74,17 @@ public class Jogador implements IJogador {
 
     public void setNumRodadas() {
         numRodadas++;
+    }
+
+    public void setStatusRodadas() {
+        statusRodadas++;
+    }
+
+    public void resetStatusRodadas() {
+        statusRodadas = 0;
+    }
+
+    public int getStatusRodadas() {
+        return statusRodadas;
     }
 }

@@ -14,7 +14,7 @@ public class EfeitoCadeia implements IEfeito{
     
     public String leEfeito(IJogador jogador) {
         aplicaEfeito(jogador);
-        return mensagem;
+        return jogador.getNome() + mensagem + "\naperte ENTER para continuar";
     }
 
     public void aplicaEfeito(IJogador jogador) {

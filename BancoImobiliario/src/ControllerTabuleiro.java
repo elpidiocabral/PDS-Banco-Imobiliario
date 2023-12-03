@@ -24,9 +24,11 @@ public class ControllerTabuleiro {
         return tabuleiro.getNumRodadas();
     };
 
+    /*
     public String solicitaGirarDados() {
         return tabuleiro.solicitaGirarDados();
     }
+    */
     public void preparaReceber(boolean ok) {
         tabuleiro.setSinaliza(ok);
     }
@@ -53,6 +55,10 @@ public class ControllerTabuleiro {
 
     public void incrementaRodada() {
         tabuleiro.incrementaRodada();
+    }
+
+    public String encerraJogo() {
+        return tabuleiro.encerraJogo();
     }
     
 }

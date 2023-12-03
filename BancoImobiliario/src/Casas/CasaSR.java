@@ -15,7 +15,7 @@ public class CasaSR implements ICasa{
         return this.nome;
     }
     public String leCasa(IJogador jogador) {
-        return jogador.getNome() + " você caiu em uma casa de sorte ou revés, compre uma carta do monte e teste sua sorte \n" + "aperte ENTER para comprar";//
+        return jogador.getNome() + " você caiu em uma casa de sorte ou revés, compre uma carta do monte e teste sua sorte \n" + "aperte C para comprar\n";//
     }
 
     public int getGrupo() {
