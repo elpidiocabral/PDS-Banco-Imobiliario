@@ -22,7 +22,7 @@ public class CartaSorteOuReves implements ICarta{
         return valor;
     }
     public float getValor() {
-        if(this.nome == "SORTE") {
+        if(this.nome.equals("SORTE")) {
             return valor;
         }
         return -valor;

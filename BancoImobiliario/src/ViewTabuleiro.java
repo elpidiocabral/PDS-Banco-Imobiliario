@@ -43,40 +43,35 @@ public class ViewTabuleiro {
     }
 
     public void novaRodada() {
-        System.out.println("rodada: " + controllerTab.getNumRodadas());
-        System.out.println("PILHA 1");
-
-        System.out.println(controllerTab.solicitaGirarDados());
-        resp = sc.nextLine();
-
-            if(resp.equals("")) {
-                //controllerTab.preparaReceber(true); 
-                controllerTab.novaRodada();
-                System.out.println("PILHA 2");
-            }
-
-            System.out.println(controllerTab.retornoTabuleiro()); 
-            resp = sc.nextLine();
-            if(resp.equals("S")) {
-                controllerTab.preparaReceber(true); 
-                System.out.println(controllerTab.solicitaCompra());
-            }
-            else if(resp.equals("N")){
-                controllerTab.preparaReceber(false);
-            }
-            else if(resp.equals("")){
-                System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogador()));
-            }
+        controllerTab.novaRodada();
         
+        System.out.println(controllerTab.retornoTabuleiro()); 
+
+        resp = sc.nextLine();
+        switch (resp) {
+            case "S":
+                System.out.println(controllerTab.solicitaCompra());
+                break;
+
+            case "":
+                System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogador()));
+                break;
+        
+            default:
+                break;
+        }
     }
 
     public void Jogar() {
         boolean controle = true;
         while(controle) {
             novaRodada();
-            System.out.println("Deseja jogar uma nova rodada? S/N");
+            System.out.println("JOGAR: Deseja jogar uma nova rodada? S/N");
             controle = captarEntrada();
+
+            controllerTab.incrementaRodada();
         }
+        System.out.println(" - - - FIM DE JOGO - - - ");
     }
 
     public boolean captarEntrada() {

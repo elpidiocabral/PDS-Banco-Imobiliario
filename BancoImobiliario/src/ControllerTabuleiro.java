@@ -51,5 +51,8 @@ public class ControllerTabuleiro {
         return tabuleiro.getNumJogadores();
     }
 
+    public void incrementaRodada() {
+        tabuleiro.incrementaRodada();
+    }
     
 }

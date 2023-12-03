@@ -19,6 +19,7 @@ public class OrdemSequencial implements IIterador {
 				return true;
 			} 
 			else {
+				//System.out.println("RAPAZ MENINO GAROTO");
 				return false;
 			}
 		}
@@ -29,9 +30,20 @@ public class OrdemSequencial implements IIterador {
 		if(this.temProximo()) {
 			jogador = this.jogadores[atual];
 			atual++;
-			System.out.println("JOGADOR ITEROU VIU " + this.atual);
+			//System.out.println("JOGADOR ITEROU VIU " + this.atual);
+		} else {
+			System.out.println("NAO TEM PROXIMO");
 		}
 		return jogador;
+	}
+
+	public IJogador getUltimo() {
+		return jogadores[jogadores.length-1];
+	}
+
+	public IJogador getPrimeiro() {
+		atual = 0;
+		return jogadores[atual];
 	}
 
 }
