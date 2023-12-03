@@ -6,7 +6,7 @@ public class Jogador implements IJogador {
     
     String nome;
     float carteira;
-    int imoveis;
+    float imoveis;
     int localiza;
     String status;
     int numRodadas;
@@ -16,12 +16,13 @@ public class Jogador implements IJogador {
     
     public Jogador(String nome) {
         this.nome = nome;
-        this.carteira = 2558000;
+        //this.carteira = 2558000;
+        this.carteira = 350000;
         this.imoveis = 0; // aqui vamos salvar o que esse jogador tem de ações em imóveis, pra facilitar o ranking final
         this.localiza = 1; // a pendência servirá em casos de punições como "fique 3 rodadas sem jogar, como um contador, apesar de que eu creio que daria pra fazer de um jeito melhor pensando um pouco mais"
         this.status = "livre"; // o status vai dizer onde ele está = de férias, na prisão ou livre;
-        int numRodadas = 0;
-        int statusRodadas = 0;
+        numRodadas = 0;
+        statusRodadas = 0;
         dados = new ControllerDados();
     }
 
@@ -31,10 +32,6 @@ public class Jogador implements IJogador {
 
     public float getCarteira() {
         return carteira;
-    }
-
-    public void tornarProprietario() {
-        //tornarProprietarioView(getNome()); algo do tipo
     }
     public int girarDados() {
         setNumRodadas();
@@ -60,11 +57,11 @@ public class Jogador implements IJogador {
         localiza = local;
     }
 
-    public void setImoveis(int valor) {
+    public void setImoveis(float valor) {
         imoveis += valor;
     }
 
-    public int getImoveis() {
+    public float getImoveis() {
         return imoveis;
     }
 
@@ -86,5 +83,10 @@ public class Jogador implements IJogador {
 
     public int getStatusRodadas() {
         return statusRodadas;
+    }
+
+    public void falido() {
+        status = "falido";
+        carteira = 0;
     }
 }

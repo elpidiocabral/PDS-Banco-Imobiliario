@@ -3,6 +3,7 @@ package Casas;
 
 import Carta.*;
 import Jogador.IJogador;
+import Jogador.Jogador;
 
 public class CasaCarta implements ICasa {
 
@@ -23,18 +24,15 @@ public class CasaCarta implements ICasa {
         String le = "";
         le += nome;
         le += "\n--------------------\n";
+
         if(carta.getProprietario() != null) {
             if(carta.getProprietario().equals(jogador)) {
-                le += " você já é dono deste local, até a próxima\n";
+                le += jogador.getNome() + " você já é dono deste local, até a próxima\naperte ENTER para continuar.\n";
                 return le;
             }
-            le += jogador.getNome() + " paga " + carta.calcularPedagio() + " para " + carta.getProprietario().getNome() + "\n";
-            if(jogador.getCarteira() < carta.calcularPedagio()) {
-                carta.getProprietario().setCarteira(jogador.getCarteira());
-                le += jogador.getNome() + " faliu!! não poderá jogar enquanto não tiver dinheiro\n";
-                jogador.setStatus("falido");
-                return le;
-            }
+
+            le += jogador.getNome() + " pagaCARTAAA " + carta.calcularPedagio() + " para " + carta.getProprietario().getNome() + "\n";
+            
             jogador.setCarteira(-carta.calcularPedagio());
             carta.getProprietario().setCarteira(carta.calcularPedagio());
             return le;

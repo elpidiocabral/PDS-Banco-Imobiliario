@@ -55,4 +55,10 @@ public class OrdemGanhadores implements IIterador{
 	public IJogador getPrimeiro() {
 		return jogadores[0];
 	}
+
+	public IJogador getAnterior() {
+		if(jogadores[atual-1] == null) {
+			return getUltimo();
+		} else return jogadores[atual-1];
+	}
 }

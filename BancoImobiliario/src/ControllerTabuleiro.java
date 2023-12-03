@@ -2,10 +2,10 @@ import Casas.ICasa;
 import Jogador.IJogador;
 
 public class ControllerTabuleiro {
-    Tabuleiro tabuleiro;
+    TabuleiroSingleton tabuleiro;
 
     public ControllerTabuleiro() {
-        tabuleiro = new Tabuleiro();
+        tabuleiro = tabuleiro.getTabuleiro();
     }
 
     public void cadastrarJogador(String nome) {
@@ -24,11 +24,6 @@ public class ControllerTabuleiro {
         return tabuleiro.getNumRodadas();
     };
 
-    /*
-    public String solicitaGirarDados() {
-        return tabuleiro.solicitaGirarDados();
-    }
-    */
     public void preparaReceber(boolean ok) {
         tabuleiro.setSinaliza(ok);
     }
@@ -38,7 +33,7 @@ public class ControllerTabuleiro {
     }
 
     public IJogador getJogador() {
-        return tabuleiro.getJogador();
+        return tabuleiro.getJogador(); 
     }
 
     public String solicitaCompra() {
@@ -60,5 +55,8 @@ public class ControllerTabuleiro {
     public String encerraJogo() {
         return tabuleiro.encerraJogo();
     }
-    
+
+    public IJogador getJogadorVez() {
+        return tabuleiro.getJogadorVez();
+    }
 }

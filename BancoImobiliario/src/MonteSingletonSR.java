@@ -4,11 +4,19 @@ import Carta.CartaSorteOuReves;
 import Carta.ICarta;
 import Jogador.IJogador;
 
-public class MonteSR {
-    ArrayList<ICarta> sorteReves;
+public class MonteSingletonSR {
+    private static ArrayList<ICarta> sorteReves;
+    private static MonteSingletonSR uniqueMonte;
 
-    public MonteSR() {
+    private MonteSingletonSR() {
         sorteReves = new ArrayList<ICarta>();
+    }
+
+    public static MonteSingletonSR getMonteSingleton() {
+        if(uniqueMonte == null) {
+            uniqueMonte = new MonteSingletonSR();
+        }
+        return uniqueMonte;
     }
 
     public void inicializarMonte() {
@@ -59,6 +67,13 @@ public class MonteSR {
         ICarta carta = sorteReves.get(0);
         String confirmacao = carta.getNome();
 
+        if( jogador.getCarteira() + carta.getValor() < 1 ) {
+            jogador.falido();
+            confirmacao += "\ncom isso, " + jogador.getNome() + " faliu... \nsó voltará a jogar quando tiver dinheiro";
+            carta.setProprietario(jogador);
+            sorteReves.remove(0);
+            return confirmacao;
+        }
         carta.setProprietario(jogador);
         jogador.setCarteira(carta.getValor());
         sorteReves.remove(0);

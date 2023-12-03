@@ -52,4 +52,14 @@ public class OrdemSequencial implements IIterador {
 	public int getAtual() {
 		return atual;
 	}
+
+	public IJogador getAnterior() {
+		if(jogadores[atual-1] == null) {
+			System.out.println("ULTIMO");
+			return getUltimo();
+		} else {
+			System.out.println("ANTERIOR");
+			return jogadores[atual-1];
+		}
+	}
 }
