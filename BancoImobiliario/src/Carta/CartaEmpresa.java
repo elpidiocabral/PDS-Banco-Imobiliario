@@ -16,7 +16,7 @@ public class CartaEmpresa implements ICarta{
 
     // rever isso aqui
     public float calcularPedagio() {
-        float pedagio = (float)(getValor() * 40000);
+        float pedagio = (float)(getValor() * 0.5);
         return pedagio;
     }
     public float getValor() {

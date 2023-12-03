@@ -58,10 +58,11 @@ public class MonteSR {
     public String retirarCarta(IJogador jogador) {
         ICarta carta = sorteReves.get(0);
         String confirmacao = carta.getNome();
+
         carta.setProprietario(jogador);
         jogador.setCarteira(carta.getValor());
         sorteReves.remove(0);
+        
         return confirmacao;
     }
-
 }
