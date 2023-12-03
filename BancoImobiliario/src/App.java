@@ -176,7 +176,7 @@ public class App {
                     System.out.println("\nJogador da vez: " + joga.getNome());
                     System.out.print("lançando os dados... ");
                     joga.setNumRodadas();
-                    int valor = aleatorio.nextInt(1, 13);
+                    int valor = aleatorio.nextInt() * (1 - 13);
                     dado = valor - 1; //pega o números
                     System.out.println(dado + "!! \n");
                     joga.setLocaliza((joga.getLocaliza() + valor) %  casas.size()); //manda ele pra lá
@@ -204,7 +204,7 @@ public class App {
 
     public static int girarDados() {
         Random aleatorio = new Random(); // função random
-        int valor = aleatorio.nextInt(1, 13);
+        int valor = aleatorio.nextInt() * (1 - 13);
         return valor;
     }
 
