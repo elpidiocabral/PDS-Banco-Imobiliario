@@ -39,7 +39,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
 
     public void inicializaTabuleiro() {
         //casas de Efeito - grupo 0 casas de sorte ou revés grupo -1
-        ICasa sorteOuReves = fabrica.criarCasa("SR", "Sorte ou Revés", -1);
+        ICasa sorteOuReves = fabrica.criarCasa("Efeito", "SR", 0);
         ICasa prisao = fabrica.criarCasa("Efeito","Prisão", 0);
         ICasa inicial = fabrica.criarCasa("Efeito", "Início", 0);
          
@@ -186,8 +186,8 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     public String andarCasas(IJogador jogador, int valor) {
         int index = ((valor + jogador.getLocaliza()) % casas.size());
         
-        System.out.println(jogador.getNome());
-        String base = jogador.getNome() + " andará " + valor + " casas...\n\n";
+        //System.out.println(jogador.getNome());
+        String base = "\n" + jogador.getNome() + " andará " + valor + " casas...\n\n";
 
         casa = casas.get(index);
         jogador.setLocaliza(index);

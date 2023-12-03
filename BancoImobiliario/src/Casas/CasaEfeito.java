@@ -17,6 +17,7 @@ public class CasaEfeito implements ICasa {
         this.nome = nome;
         this.grupo = grupo;
         this.efeito = criarEfeito(nome);
+        cairam = new ArrayList<IJogador>();
     }
 
     public IEfeito criarEfeito(String nome) {
@@ -26,6 +27,9 @@ public class CasaEfeito implements ICasa {
 
             case "Prisão":
                 return new EfeitoCadeia();
+            
+            case "SR":
+                return new EfeitoSR();
 
             default:
                 return new EfeitoInicio();
@@ -36,6 +40,7 @@ public class CasaEfeito implements ICasa {
         return this.nome;
     }
     public String leCasa(IJogador jogador) {
+        setProprietario(jogador);
         return efeito.leEfeito(jogador);
         // no caso da carta efeito, o nome guarda a mensagem de efeito
         // aplicar mecânica do fique sem jogar OU do ganhe, nesse caso preciso ter a classe jogador pra fazer isso

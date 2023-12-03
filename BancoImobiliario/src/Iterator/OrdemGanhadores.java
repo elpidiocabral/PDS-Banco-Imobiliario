@@ -49,7 +49,7 @@ public class OrdemGanhadores implements IIterador{
 	}
 
 	public IJogador getUltimo() {
-		return jogadores[jogadores.length];
+		return jogadores[jogadores.length-1];
 	}
 
 	public IJogador getPrimeiro() {
