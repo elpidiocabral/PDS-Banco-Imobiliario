@@ -16,5 +16,7 @@ public interface IJogador {
     public int getNumRodadas();
     public void setNumRodadas();
 
-    
+    public void setStatusRodadas();
+    public void resetStatusRodadas();
+    public int getStatusRodadas();
 } 

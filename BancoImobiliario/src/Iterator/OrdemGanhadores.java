@@ -12,9 +12,9 @@ public class OrdemGanhadores implements IIterador{
 		atual = 0;
 	}
 
-    private void ordenar() {
+    public void ordenar() {
 		for(int i = 0; i < jogadores.length; i++){
-            for(int j = i + 1; j<jogadores.length; j++){
+            for(int j = i + 1; j < jogadores.length; j++){
             	if((jogadores[i].getCarteira() + jogadores[i].getImoveis()) < (jogadores[j].getCarteira() + jogadores[j].getImoveis()) ){
                     //troca
                     IJogador temporario = jogadores[i];
@@ -38,6 +38,7 @@ public class OrdemGanhadores implements IIterador{
 			}
 		}
 	}
+
 	public IJogador leProximo() {
 		IJogador jogador = null;
 		if(this.temProximo()) {
@@ -45,5 +46,13 @@ public class OrdemGanhadores implements IIterador{
 			atual++;
 		}
 		return jogador;
+	}
+
+	public IJogador getUltimo() {
+		return jogadores[jogadores.length];
+	}
+
+	public IJogador getPrimeiro() {
+		return jogadores[0];
 	}
 }

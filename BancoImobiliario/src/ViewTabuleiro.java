@@ -53,11 +53,12 @@ public class ViewTabuleiro {
                 System.out.println(controllerTab.solicitaCompra());
                 break;
 
-            case "":
+            case "C":
                 System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogador()));
                 break;
         
             default:
+                //System.out.println("aperte ENTER para continuar o jogo!");
                 break;
         }
     }
@@ -66,12 +67,13 @@ public class ViewTabuleiro {
         boolean controle = true;
         while(controle) {
             novaRodada();
-            System.out.println("JOGAR: Deseja jogar uma nova rodada? S/N");
+            System.out.println("Ir para o próximo jogador S/N");
             controle = captarEntrada();
 
             controllerTab.incrementaRodada();
         }
-        System.out.println(" - - - FIM DE JOGO - - - ");
+        System.out.println(" - - - FIM DE JOGO - - - \n");
+        System.out.println("\nRANKING---------------\n" + controllerTab.encerraJogo());
     }
 
     public boolean captarEntrada() {
