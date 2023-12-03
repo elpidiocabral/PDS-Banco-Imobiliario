@@ -15,7 +15,8 @@ public class OrdemSequencial implements IIterador {
 		if(jogadores.length == 0) {
 			return false;
 		} else {
-			if(jogadores.length > atual) {
+			if(jogadores.length-1 >= atual) {
+				System.out.println("AQUI ->> " +jogadores.length);
 				return true;
 			} 
 			else {
@@ -32,7 +33,8 @@ public class OrdemSequencial implements IIterador {
 			atual++;
 			//System.out.println("JOGADOR ITEROU VIU " + this.atual);
 		} else {
-			System.out.println("NAO TEM PROXIMO");
+			jogador = this.getPrimeiro();
+			atual = 0;
 		}
 		return jogador;
 	}
@@ -46,4 +48,7 @@ public class OrdemSequencial implements IIterador {
 		return jogadores[atual];
 	}
 
+	public int getAtual() {
+		return atual;
+	}
 }

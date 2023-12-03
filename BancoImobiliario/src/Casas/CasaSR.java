@@ -2,9 +2,7 @@ package Casas;
 
 import Jogador.IJogador;
 
-
 public class CasaSR implements ICasa{
-    
     String nome;
     int grupo;
 

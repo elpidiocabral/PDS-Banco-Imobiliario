@@ -80,7 +80,7 @@ public class CasaCarta implements ICasa {
                 return new CartaLocal(getNome(), valor);
 
             default:
-                return new CartaEmpresa(nome, 20000);
+                return new CartaEmpresa(nome, 200000);
         }
     }
 

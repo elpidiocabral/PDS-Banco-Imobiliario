@@ -14,6 +14,4 @@ public class ControllerMonteSR {
     public String retirarCarta(IJogador jogador) {
         return monte.retirarCarta(jogador);
     }
-
-
 }

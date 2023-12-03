@@ -24,8 +24,9 @@ public class CartaSorteOuReves implements ICarta{
     public float getValor() {
         if(this.nome.equals("SORTE")) {
             return valor;
+        } else {
+            return -valor;
         }
-        return -valor;
     }
 
     public IJogador getProprietario() {
@@ -39,10 +40,9 @@ public class CartaSorteOuReves implements ICarta{
     public float geraValor() {
         // criando valor aleatório para o sorte ou reves
         Random aleatorio = new Random(); // função random
-        float valor = aleatorio.nextFloat() * (1.0f - 10.0f) * 10.0f; 
+        float valor = aleatorio.nextFloat() * (10.0f) * 10.0f; 
         valor =  (float) Math.floor(valor)*100;
         return valor;
-
     }
 
     public String getNome() {
