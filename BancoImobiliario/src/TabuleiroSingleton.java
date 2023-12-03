@@ -296,8 +296,8 @@ public class TabuleiroSingleton implements ITabuleiro, IAgregador {
         
         for(int i = 0; i < jogadores.size(); i++) {
             joga = iterador.leProximo();
-            ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + joga.getCarteira()+ "\n---------------------\n";
-            //ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + ( joga.getCarteira() + joga.getImoveis() ) + "\n---------------------\n";
+            ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + ( joga.getCarteira() + joga.getImoveis() ) + "\n---------------------\n";
+            //ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + joga.getCarteira()+ "\n---------------------\n";
         }
 
         return ranking;
