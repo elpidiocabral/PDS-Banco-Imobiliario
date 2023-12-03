@@ -8,4 +8,5 @@ public interface IIterador {
 	public IJogador leProximo();
 	public IJogador getUltimo();
 	public IJogador getPrimeiro();
+	public IJogador getAnterior();
 } 

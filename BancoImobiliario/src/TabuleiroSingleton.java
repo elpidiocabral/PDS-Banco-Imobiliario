@@ -7,29 +7,39 @@ import Iterator.OrdemGanhadores;
 import Iterator.OrdemSequencial;
 import Jogador.*;
 
-public class Tabuleiro implements ITabuleiro, IAgregador {
-    ArrayList<ICasa> casas; 
-    IFabricaCasa fabrica;
-    ArrayList<IJogador> jogadores;
+public class TabuleiroSingleton implements ITabuleiro, IAgregador {
+    
+    private static TabuleiroSingleton uniqueTabuleiroSingleton;
+    private static ArrayList<ICasa> casas; 
+    private static IFabricaCasa fabrica;
+    
+    private IIterador iterador;
+    private ArrayList<IJogador> jogadores;
+    private IJogador joga;
+    private IJogador jogadorVez;
+    private ICasa casa;
+
     int turnos;
-    int realRodadas; // verdadeiro numero de rodadas
-    IIterador iterador;
-    
-    
-    IJogador joga;
-    ICasa casa;
     String comunica;
+    int realRodadas; // verdadeiro numero de rodadas
     boolean sinaliza;
     
     
-    public Tabuleiro() {
-        casas = new ArrayList<ICasa>();
+    private TabuleiroSingleton() {
         fabrica = new FabricaCasa();
+        casas = new ArrayList<ICasa>();
         jogadores = new ArrayList<IJogador>();
         turnos = 1;
         realRodadas = 1;
         comunica = "";
         sinaliza = true;
+    }
+
+    public static TabuleiroSingleton getTabuleiro() {
+        if(uniqueTabuleiroSingleton == null) {
+            uniqueTabuleiroSingleton = new TabuleiroSingleton();
+        }
+        return uniqueTabuleiroSingleton;
     }
 
     public void adicionaJogadores(String nome) {
@@ -140,6 +150,11 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
             mensagem += joga.getNome();
             int valor = 0;
             
+            if(joga.getStatus().equals("falido") && (joga.getCarteira() > 0)) {
+                // System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA DEPRESSAO");
+                joga.setStatus("livre");
+            }
+
             if(joga.getStatus().equals("livre")) {
                 if(getSinaliza()) { //validação de dados sendo girados;
                     valor = girarDados(joga);
@@ -158,11 +173,12 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
                     break;
                 }
             }
-            // JOGADOR PRESO
+            // JOGADOR PRESO ou FALIDO
             else {
                 joga.setStatusRodadas();
-                mensagem = joga.getNome() + " não pode jogar pois está " + joga.getStatus();
+                mensagem = "\n" + joga.getNome() + " não pode jogar pois está " + joga.getStatus();
                 mensagem += "\naperte ENTER para continuar o jogo!";
+
                 if(joga.getStatus().equals("de férias") && (joga.getStatusRodadas() > 2)) {
                     joga.setStatus("livre");
                     joga.resetStatusRodadas();
@@ -171,6 +187,7 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
                     joga.setStatus("livre");
                     joga.resetStatusRodadas();
                 }
+
                 setComunica(mensagem);
 
                 joga = solicitaProximo(iterador);
@@ -178,50 +195,61 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
                 
                 break;
             }
-                       
-            joga = solicitaProximo(iterador);
+
+            joga = solicitaProximo(iterador); 
         }
     }
 
     public String andarCasas(IJogador jogador, int valor) {
-        int index = ((valor + jogador.getLocaliza()) % casas.size());
+        jogadorVez = jogador;
+        int index = ((valor + jogadorVez.getLocaliza()) % casas.size());
         
         //System.out.println(jogador.getNome());
-        String base = "\n" + jogador.getNome() + " andará " + valor + " casas...\n\n";
+        String base = "\n" + jogadorVez.getNome() + " andará " + valor + " casas...\n\n";
 
         casa = casas.get(index);
-        jogador.setLocaliza(index);
+        jogadorVez.setLocaliza(index);
 
         //cartas locais e de empresa tem grupo maior que 0, só casas de efeito tem grupo 0
         if(casa.getGrupo() > 0 && casa.getProprietario() == null) {
-            base += casas.get(index).leCasa(jogador) + "\nDeseja comprar esta casa?";
+            base += casas.get(index).leCasa(jogadorVez) + "\nDeseja comprar esta casa S/N?";
             return base;
         }
         else if(casa.getGrupo() > 0 && casa.getProprietario() != null) {
-            base += casas.get(index).leCasa(jogador);
+            base += casas.get(index).leCasa(jogadorVez);
 
-            if(casa.getProprietario().equals(jogador)) {
+            if(casa.getProprietario().equals(jogadorVez)) {
                 return base;
             }
-            else if(!casa.getProprietario().equals(jogador)) {
+            else if(!casa.getProprietario().equals(jogadorVez)) {
                 float custo = casa.calcularPedagio();
-                base += "\n" + jogador.getNome() + " paga " + custo + " para " + casa.getProprietario().getNome() + "\n";
+                base += "\n" + jogadorVez.getNome() + " paga " + custo + " para " + casa.getProprietario().getNome() + "\n";
 
                 setComunica(base);
 
-                jogador.setCarteira(-custo);
+                if(jogadorVez.getCarteira() < custo) {
+                    casa.getProprietario().setCarteira(jogadorVez.getCarteira());
+                    jogadorVez.falido();
+                    
+                    base += jogadorVez.getNome() + " acabou de falir, PERDEU TUDOO!!\nsó voltará a jogar quando tiver dinheiro";
+                    return base;
+                } 
+                
+                jogadorVez.setCarteira(-custo);
                 casa.getProprietario().setCarteira(custo);
 
                 return base;
             }
         }
         else if(casa.getGrupo() == -1) {
-            base += casas.get(index).leCasa(jogador);
+            base += casas.get(index).leCasa(jogadorVez);
             return base;
 
         }
+        // IF das cartas
         else if(casa.getGrupo() == 0) {
-            base += casas.get(index).leCasa(jogador);
+            jogadorVez = jogador;
+            base += casas.get(index).leCasa(jogadorVez);
             return base;
         }
         return "";
@@ -229,15 +257,19 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
     // fim andar casas
 
     public String solicitaCompra(IJogador jogador, ICasa casa) {
-        casa.setProprietario(jogador); 
-        return "---compra realizada com sucesso!---\n\n";
-    }
+        if(jogadorVez.getCarteira() < casa.getValor()) {
+            return "---você não tem saldo suficiente para esta compra---\n";
+        } 
 
-    /*
-    public String solicitaGirarDados() {
-        return "gire os dados apertando ENTER";
+        casa.setProprietario(jogadorVez); 
+        jogadorVez.setCarteira(-(casa.getValor()));
+        
+        if(jogadorVez.getCarteira() < 1) {
+            jogadorVez.falido();
+        }
+        jogadorVez.setImoveis(casa.getValor());
+        return "---compra realizada com sucesso!---\n";
     }
-    */
 
     public int girarDados(IJogador jogador) {
         int valor = jogador.girarDados();
@@ -264,7 +296,8 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
         
         for(int i = 0; i < jogadores.size(); i++) {
             joga = iterador.leProximo();
-            ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + ( joga.getCarteira() + joga.getImoveis() ) + "\n---------------------\n";
+            ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + joga.getCarteira()+ "\n---------------------\n";
+            //ranking += (i+1) + "º: " + joga.getNome() + "\n$$: " + ( joga.getCarteira() + joga.getImoveis() ) + "\n---------------------\n";
         }
 
         return ranking;
@@ -304,5 +337,9 @@ public class Tabuleiro implements ITabuleiro, IAgregador {
 
     public void incrementaRodada() {
         this.turnos++;
+    }
+
+    public IJogador getJogadorVez() {
+        return jogadorVez;
     }
 }

@@ -15,6 +15,7 @@ public class ViewTabuleiro {
     }
 
     public void cadastrarJogador() {
+        System.out.println("- - RESPONDA S/N COM LETRAS MAIUSCULAS ");
         System.out.print("\nPRIMEIRO PASSO: cadastro de jogadores");
         boolean controle = true;
         while(controle) {
@@ -32,7 +33,7 @@ public class ViewTabuleiro {
     public void inicializarJogo() {
         System.out.println("Desejaria inicializar o jogo? S/N");
         resp = sc.nextLine();
-        if(resp.equals("S")) {
+        if(resp.equals("S") || resp.equals("s")) {
             controllerTab.inicializarJogo();
             controllerMonteSR.inicializarMonte();
             cadastrarJogador();
@@ -54,9 +55,9 @@ public class ViewTabuleiro {
                 break;
 
             case "C":
-                System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogador()));
+                System.out.println(controllerMonteSR.retirarCarta(controllerTab.getJogadorVez()));
                 break;
-        
+
             default:
                 //System.out.println("aperte ENTER para continuar o jogo!");
                 break;
@@ -78,7 +79,7 @@ public class ViewTabuleiro {
 
     public boolean captarEntrada() {
         resp = sc.nextLine();
-        if(resp.equals("S")) {
+        if(resp.equals("S") || resp.equals("s")) {
             return true;
         }
         else {

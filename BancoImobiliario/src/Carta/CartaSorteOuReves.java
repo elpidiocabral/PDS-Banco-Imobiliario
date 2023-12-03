@@ -46,7 +46,7 @@ public class CartaSorteOuReves implements ICarta{
     }
 
     public String getNome() {
-        return "\n" + nome + "\n" + mensagem + valor + "\n";
+        return "\n" + nome + "\n" + mensagem + valor;
     }
 
 }

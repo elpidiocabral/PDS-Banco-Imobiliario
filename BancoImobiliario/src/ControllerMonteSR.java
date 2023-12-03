@@ -1,10 +1,10 @@
 import Jogador.IJogador;
 
 public class ControllerMonteSR {
-    MonteSR monte;
+    MonteSingletonSR monte;
 
     public ControllerMonteSR() {
-        monte = new MonteSR();
+        monte = monte.getMonteSingleton();
     }
 
     public void inicializarMonte() {
